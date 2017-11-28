@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SwingAutomation.iml" filepath="$PROJECT_DIR$/SwingAutomation.iml" />
+      <module fileurl="file://$USER_HOME$/Downloads/jdk-8u151-windows-x64-demos/jdk1.8.0_151/demo/jfc/SwingSet2/src22/src22.iml" filepath="$USER_HOME$/Downloads/jdk-8u151-windows-x64-demos/jdk1.8.0_151/demo/jfc/SwingSet2/src22/src22.iml" />
+    </modules>
+  </component>
+</project>
