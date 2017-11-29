@@ -7,7 +7,6 @@ import org.fest.swing.fixture.*;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 
 import static org.fest.swing.data.TableCell.row;
 
@@ -35,23 +34,16 @@ public class JTableDemoPage extends BasePage {
         Thread.sleep(1000);
     }
 
-    public void selectValueInDropdown() throws InterruptedException {
+    public void selectValueInDropdown(final Filters.Dropdown dropdown, String value) throws InterruptedException {
 
         GenericTypeMatcher<JComboBox> jComboboxByDefaultValueMatcher = new GenericTypeMatcher<JComboBox>(JComboBox.class) {
             protected boolean isMatching(JComboBox combobox) {
-                return combobox.getSelectedItem().equals("Multiple ranges");
+                return combobox.getSelectedItem().equals(dropdown.getDefaultValue());
             }
         };
-        JComboBoxFixture combobox = editor.comboBox(jComboboxByDefaultValueMatcher);
-        combobox.selectItem("One range");
 
-        GenericTypeMatcher<JComboBox> jComboboxByDefaultValueMatcher2 = new GenericTypeMatcher<JComboBox>(JComboBox.class) {
-            protected boolean isMatching(JComboBox combobox) {
-                return combobox.getSelectedItem().equals("Subsequent columns");
-            }
-        };
-        JComboBoxFixture combobox2 = editor.comboBox(jComboboxByDefaultValueMatcher2);
-        combobox2.selectItem("Column boundaries");
+        JComboBoxFixture combobox = editor.comboBox(jComboboxByDefaultValueMatcher);
+        combobox.selectItem(value);
 
         Thread.sleep(5000);
 
@@ -116,8 +108,12 @@ public class JTableDemoPage extends BasePage {
 
 
         //table.selectRows(0).click().pressKey(MouseEvent.MOUSE_CLICKED).pressKey(KeyEvent.VK_DOWN).pressKey(KeyEvent.VK_DOWN);
-        table.selectRows(0).click().pressKey(MouseEvent.MOUSE_CLICKED).pressKey(MouseEvent.MOUSE_DRAGGED).pressKey(KeyEvent.VK_DOWN);
+        //table.selectRows(0).click().pressKey(MouseEvent.MOUSE_CLICKED).pressKey(MouseEvent.MOUSE_DRAGGED).pressKey(KeyEvent.VK_DOWN);
+
+        table.selectRows(9).pressKey(KeyEvent.VK_SHIFT).click().releaseKey(KeyEvent.VK_SHIFT);
+        //table.pressKey(KeyEvent.KEY_RELEASED);
         Thread.sleep(5000);
+
         JTableCellFixture cell = editor.table().cell(row(1).column(1));
         ColorFixture color = cell.background();
         //System.out.println(color.requireEqualTo("7fffd4"));
@@ -130,7 +126,25 @@ public class JTableDemoPage extends BasePage {
 
         System.out.println(table.clientProperty("autoResizeMode"));
 
+        editor.panel();
+        Thread.sleep(5000);
+    }
 
+
+    public void selectSection(int x1, int y1, int x2, int y2) throws InterruptedException {
+        JTableFixture table = editor.table();
+        table.cell(row(y1).column(x1)).click();
+        table.pressKey(KeyEvent.VK_SHIFT);
+        table.cell(row(y2).column(x2)).click();
+        table.releaseKey(KeyEvent.VK_SHIFT);
+        Thread.sleep(5000);
+    }
+
+    public void addSection(int x1, int y1, int x2, int y2)throws InterruptedException{
+        JTableFixture table = editor.table();
+        table.pressKey(KeyEvent.VK_CONTROL);
+        selectSection(x1, y1, x2, y2);
+        table.releaseKey(KeyEvent.VK_CONTROL);
     }
 
 }

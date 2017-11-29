@@ -1,5 +1,6 @@
 package objectModel;
 
+
 /**
  * Created by Anna on 26.11.2017.
  */
@@ -39,6 +40,19 @@ public class Filters {
         }
     }
 
+    public enum Dropdown{
+        SELECTION_MODE(SelectionModeDropdown.MUTLIPLE_RANGES.getDescription()),
+        AUTORESIZE_MODE(AutoresizeModeDropdown.SUBSEQUENT_COLUMNS.getDescription());
+
+        private String defaultValue;
+        private Dropdown(String defaultValue){
+            this.defaultValue = defaultValue;
+        }
+        public String getDefaultValue(){
+            return defaultValue;
+        }
+    }
+
 
     public enum SelectionModeDropdown{
         SINGLE("Single"),
@@ -54,9 +68,6 @@ public class Filters {
             return description;
         }
 
-        public String getSelected(){
-            return MUTLIPLE_RANGES.getDescription();
-        }
     }
 
     public enum AutoresizeModeDropdown{
@@ -73,10 +84,6 @@ public class Filters {
 
         public String getDescription(){
             return description;
-        }
-
-        public String getSelected(){
-            return SUBSEQUENT_COLUMNS.getDescription();
         }
     }
 
