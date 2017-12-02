@@ -2,6 +2,7 @@ import org.fest.swing.annotation.RunsInEDT;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.junit.testcase.FestSwingJUnitTestCase;
+import org.junit.Before;
 import org.junit.Test;
 import pages.BasePage;
 
@@ -16,6 +17,7 @@ import static org.fest.swing.edt.GuiActionRunner.execute;
 public class BasePageTest extends FestSwingJUnitTestCase {
 
     static FrameFixture editor;
+    private BasePage basePage;
 
     @Override
     protected void onSetUp() {
@@ -39,10 +41,13 @@ public class BasePageTest extends FestSwingJUnitTestCase {
             }
         });
     }
+    @Before
+    public void init() throws InterruptedException {
+        basePage = new BasePage(editor);
+    }
 
     @Test
     public void openJTableDemo() throws InterruptedException {
-        BasePage basePage = new BasePage(editor);
-        basePage.openDemo("qwe");
+        basePage.openDemo("JTable demo");
     }
 }
