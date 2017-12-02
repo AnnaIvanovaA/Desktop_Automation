@@ -14,6 +14,8 @@ public class JTableDemoTests extends BasePageTest {
 
     private String reorderingChbx = Filters.Checkbox.REORDERING.getDescription();
     private String horinzLinesChbx = Filters.Checkbox.HORIZ_LINES.getDescription();
+    private String rowSelectionChbx = Filters.Checkbox.ROW_SELECTION.getDescription();
+    private String columnSelectionChbx = Filters.Checkbox.COLUMN_SELECTION.getDescription();
 
     private Filters.Slider interCellSlider = Filters.Slider.INTER_CELL_SPACING;
 
@@ -24,8 +26,8 @@ public class JTableDemoTests extends BasePageTest {
     private String oneRangeSelModeValue = Filters.SelectionModeDropdown.ONE_RANGE.getDescription();
     private String multipleRangeSelModeValue = Filters.SelectionModeDropdown.MUTLIPLE_RANGES.getDescription();
 
-    Color selectedCellBackgroundColor = new Color(184, 207, 229);
-    Color notSelectedCellBackgroundColor = new Color(255,255,255);
+    private Color selectedCellBackgroundColor = new Color(184, 207, 229);
+    private Color notSelectedCellBackgroundColor = new Color(255,255,255);
 
 
 
@@ -153,6 +155,75 @@ public class JTableDemoTests extends BasePageTest {
         checkSectionIsNotSelected(0, 16,5, jTableDemoPage.getNumberOfRows()-1);
     }
 
+    @Test
+    public void columnSingleSelectionTest() throws InterruptedException {
+        //unselect selected by default checkbox
+        jTableDemoPage.pressCheckbox(rowSelectionChbx);
+        //select column selection
+        jTableDemoPage.pressCheckbox(columnSelectionChbx);
+
+        jTableDemoPage.selectCell(3,5);
+
+        //check that all cells in this column was selected
+        checkSectionIsSelected(3,0,3,jTableDemoPage.getNumberOfRows()-1);
+
+        checkSectionIsNotSelected(0,0,2,jTableDemoPage.getNumberOfRows()-1);
+        checkSectionIsNotSelected(4,0,5,jTableDemoPage.getNumberOfRows()-1);
+    }
+
+    @Test
+    public void columnOneRangeSelectionTest() throws InterruptedException{
+        //deselect selected by default checkbox
+        jTableDemoPage.pressCheckbox(rowSelectionChbx);
+        //select column selection
+        jTableDemoPage.pressCheckbox(columnSelectionChbx);
+
+        //select section (1,2)-(3,2) -- 3 columns should be selected
+        jTableDemoPage.selectSection(1,2,3,2);
+
+        checkSectionIsSelected(1,0,3,jTableDemoPage.getNumberOfRows()-1);
+
+        checkSectionIsNotSelected(0,0,0,jTableDemoPage.getNumberOfRows()-1);
+        checkSectionIsNotSelected(4,0,5,jTableDemoPage.getNumberOfRows()-1);
+    }
+
+    @Test
+    public void columnMultipleRangeSelectionTest()throws InterruptedException{
+        //deselect selected by default checkbox
+        jTableDemoPage.pressCheckbox(rowSelectionChbx);
+        //select column selection
+        jTableDemoPage.pressCheckbox(columnSelectionChbx);
+
+        //select section (0,0)-(1,0) -- 2 columns should be selected
+        // add another column (5,0)
+        jTableDemoPage.selectSection(0,0,1,0);
+        jTableDemoPage.addSection(5,0, 5,0);
+
+        checkSectionIsSelected(0,0,1,jTableDemoPage.getNumberOfRows()-1);
+        checkSectionIsSelected(5,0,5,jTableDemoPage.getNumberOfRows()-1);
+
+        checkSectionIsNotSelected(2,0,4,jTableDemoPage.getNumberOfRows()-1);
+    }
+
+    @Test
+    public void rowAndColumnMultipleSelectionTest() throws InterruptedException{
+        //select column selection, row selection is selected by default
+        jTableDemoPage.pressCheckbox(columnSelectionChbx);
+
+        //select section (0,0)-(3,3) -- 16 cells should be selected
+        jTableDemoPage.selectSection(0,0,3,3);
+        checkSectionIsSelected(0,0,3,3);
+        checkSectionIsNotSelected(4,0,5,3);
+
+        // add another section (4,6)-(5,7) -- 6 rows will be selected
+        jTableDemoPage.addSection(4,6, 5,7);
+        checkSectionIsSelected(0,0,5,3);
+        checkSectionIsSelected(0,6,5,7);
+
+        checkSectionIsNotSelected(0,4,5,5);
+        checkSectionIsNotSelected(0,8,5,jTableDemoPage.getNumberOfRows()-1);
+
+    }
 
     private void checkSectionIsSelected(int x1, int y1, int x2, int y2){
         //do not check column 3, because there are another backgrounds and cells could not be selected

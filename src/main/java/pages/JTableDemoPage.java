@@ -1,11 +1,9 @@
 package pages;
 
 import objectModel.Filters;
-import org.fest.swing.core.GenericTypeMatcher;
+import objectModel.Matchers;
 import org.fest.swing.fixture.*;
 
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
@@ -23,82 +21,38 @@ public class JTableDemoPage extends BasePage {
         super(editor);
     }
 
-    public void pressCheckbox(final String checkboxName) throws InterruptedException {
-        GenericTypeMatcher<JCheckBox> jCheckboxByTextMatcher = new GenericTypeMatcher<JCheckBox>(JCheckBox.class) {
-            protected boolean isMatching(JCheckBox checkBox) {
-                return checkBox.getText().equals(checkboxName);
-            }
-        };
-        JCheckBoxFixture checkBox = editor.checkBox(jCheckboxByTextMatcher);
+    public void pressCheckbox(String checkboxName) throws InterruptedException {
+        JCheckBoxFixture checkBox = editor.checkBox(Matchers.getCheckBoxByTextMatcher(checkboxName));
         checkBox.click();
 
         Thread.sleep(1000);
     }
 
-    public void selectValueInDropdown(final Filters.Dropdown dropdown, String value) throws InterruptedException {
-
-        GenericTypeMatcher<JComboBox> jComboboxByDefaultValueMatcher = new GenericTypeMatcher<JComboBox>(JComboBox.class) {
-            protected boolean isMatching(JComboBox combobox) {
-                return combobox.getSelectedItem().equals(dropdown.getDefaultValue());
-            }
-        };
-
-        JComboBoxFixture combobox = editor.comboBox(jComboboxByDefaultValueMatcher);
+    public void selectValueInDropdown(Filters.Dropdown dropdown, String value) throws InterruptedException {
+        JComboBoxFixture combobox = editor.comboBox(Matchers.getComboboxByDefaultValueMatcher(dropdown));
         combobox.selectItem(value);
 
         Thread.sleep(2000);
 
     }
 
-    public void selectSlider(final Filters.Slider sliderName) throws InterruptedException {
-
-
-        GenericTypeMatcher<JSlider> jSliderByMaxValuesMatcher = new GenericTypeMatcher<JSlider>(JSlider.class) {
-            protected boolean isMatching(JSlider slider) {
-                return slider.getMaximum() == sliderName.getMaxValue();
-            }
-        };
-
-        JSliderFixture slider = editor.slider(jSliderByMaxValuesMatcher);
+    public void selectSlider(Filters.Slider sliderName) throws InterruptedException {
+        JSliderFixture slider = editor.slider(Matchers.getSliderByMaxValueMatcher(sliderName));
         slider.slideToMaximum();
         Thread.sleep(5000);
 
     }
 
-    public void inputText() throws InterruptedException {
-
-//        GenericTypeMatcher<JPanel> jPanelMatcher = new GenericTypeMatcher<JPanel>(JPanel.class) {
-//            protected boolean isMatching(JPanel panel) {
-//                //return textComponent.getText().equals("JTable Printing");
-//                return panel.getBorder().toString().equals(null);
-//            }
-//        };
-//        JPanelFixture panel = editor.panel(jPanelMatcher);
-
-        GenericTypeMatcher<JTextComponent> jTextFieldMatcher = new GenericTypeMatcher<JTextComponent>(JTextComponent.class) {
-            protected boolean isMatching(JTextComponent textComponent) {
-                //return textComponent.getText().equals("JTable Printing");
-                return textComponent.getText().equals("Page {0}");
-            }
-        };
-
-        JTextComponentFixture jText = editor.textBox(jTextFieldMatcher);
-        jText.deleteText().enterText("dsfsd");
-        jText.enterText("qwert");
-        Thread.sleep(5000);
+    public void inputText(String oldValue, String newValue) throws InterruptedException {
+        JTextComponentFixture jText = editor.textBox(Matchers.getTextFieldByDefaultValueMatcher(oldValue));
+        jText.deleteText().enterText(newValue);
+        Thread.sleep(2000);
     }
 
-    public void clickPrint() throws InterruptedException {
-        GenericTypeMatcher<JButton> jButtonMatcher = new GenericTypeMatcher<JButton>(JButton.class) {
-            protected boolean isMatching(JButton btn) {
-                //return textComponent.getText().equals("JTable Printing");
-                return btn.getText().equals("Print");
-            }
-        };
-
-        JButtonFixture printBtn = editor.button(jButtonMatcher);
+    public void clickOnBtn(String btnText) throws InterruptedException {
+        JButtonFixture printBtn = editor.button(Matchers.getButtonByTextMatcher(btnText));
         printBtn.click();
-        Thread.sleep(5000);
+        Thread.sleep(2000);
     }
 
     public void table() throws InterruptedException{
@@ -131,6 +85,16 @@ public class JTableDemoPage extends BasePage {
         Thread.sleep(5000);
     }
 
+    public void selectRows(int y1, int y2){
+        JTableFixture table = editor.table();
+        table.selectRows(y1, y2);
+
+    }
+
+    public void selectCell(int x, int y){
+        JTableFixture table = editor.table();
+        table.cell(row(y).column(x)).click();
+    }
 
     public void selectSection(int x1, int y1, int x2, int y2) throws InterruptedException {
         JTableFixture table = editor.table();
@@ -158,7 +122,9 @@ public class JTableDemoPage extends BasePage {
         return editor.table().rowCount();
     }
 
-    public void selectTableHeaderSorting(){
+    public void checkRowHeight(int x1, int y1, int x2, int y2){
+        JTableFixture table = editor.table();
+
 
     }
 
