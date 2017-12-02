@@ -53,12 +53,16 @@ public class JTableDemoTests extends BasePageTest {
 
     @Test
     public void input() throws InterruptedException {
-        jTableDemoPage.inputText();
+        //String oldValue = "JTable Printing";
+        String oldValue = "Page {0}";
+        String newValue = "Some new text";
+        jTableDemoPage.inputText(oldValue, newValue);
     }
 
     @Test
     public void clickPrint() throws InterruptedException {
-        jTableDemoPage.clickPrint();
+        String btnText = "Print";
+        jTableDemoPage.clickOnBtn(btnText);
 
     }
 
