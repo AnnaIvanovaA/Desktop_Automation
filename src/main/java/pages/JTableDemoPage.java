@@ -6,6 +6,7 @@ import org.fest.swing.fixture.*;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import static org.fest.swing.data.TableCell.row;
@@ -45,7 +46,7 @@ public class JTableDemoPage extends BasePage {
         JComboBoxFixture combobox = editor.comboBox(jComboboxByDefaultValueMatcher);
         combobox.selectItem(value);
 
-        Thread.sleep(5000);
+        Thread.sleep(2000);
 
     }
 
@@ -137,7 +138,7 @@ public class JTableDemoPage extends BasePage {
         table.pressKey(KeyEvent.VK_SHIFT);
         table.cell(row(y2).column(x2)).click();
         table.releaseKey(KeyEvent.VK_SHIFT);
-        Thread.sleep(5000);
+        Thread.sleep(2000);
     }
 
     public void addSection(int x1, int y1, int x2, int y2)throws InterruptedException{
@@ -145,6 +146,20 @@ public class JTableDemoPage extends BasePage {
         table.pressKey(KeyEvent.VK_CONTROL);
         selectSection(x1, y1, x2, y2);
         table.releaseKey(KeyEvent.VK_CONTROL);
+    }
+
+
+    public Color getCellBackgroundColor(int x, int y){
+        JTableFixture table = editor.table();
+        return table.cell(row(y).column(x)).background().target();
+    }
+
+    public int getNumberOfRows(){
+        return editor.table().rowCount();
+    }
+
+    public void selectTableHeaderSorting(){
+
     }
 
 }
