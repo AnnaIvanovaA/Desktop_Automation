@@ -17,8 +17,8 @@ public class BasePage {
         this.editor = editor;
     }
 
-    public void openDemo(final String demoName) throws InterruptedException {
-        Thread.sleep(1000);
+    public void openDemo(final String demoName) {
+
         JToolBarFixture toolBar = editor.toolBar();
 
 

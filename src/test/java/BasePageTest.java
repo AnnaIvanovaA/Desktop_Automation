@@ -41,13 +41,15 @@ public class BasePageTest extends FestSwingJUnitTestCase {
             }
         });
     }
+
     @Before
-    public void init() throws InterruptedException {
+    public void init() {
         basePage = new BasePage(editor);
     }
 
+
     @Test
-    public void openJTableDemo() throws InterruptedException {
+    public void openJTableDemo(){
         basePage.openDemo("JTable demo");
     }
 }

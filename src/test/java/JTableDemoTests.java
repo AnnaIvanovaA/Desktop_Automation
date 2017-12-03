@@ -13,11 +13,14 @@ import java.awt.*;
 public class JTableDemoTests extends BasePageTest {
 
     private String reorderingChbx = Filters.Checkbox.REORDERING.getDescription();
-    private String horinzLinesChbx = Filters.Checkbox.HORIZ_LINES.getDescription();
+    private String horizLinesChbx = Filters.Checkbox.HORIZ_LINES.getDescription();
+    private String vertLinesChbx = Filters.Checkbox.VERT_LINES.getDescription();
     private String rowSelectionChbx = Filters.Checkbox.ROW_SELECTION.getDescription();
     private String columnSelectionChbx = Filters.Checkbox.COLUMN_SELECTION.getDescription();
+    private String firWidthChbx = Filters.Checkbox.FIT_WIDTH.getDescription();
 
     private Filters.Slider interCellSlider = Filters.Slider.INTER_CELL_SPACING;
+    private Filters.Slider rowHeightSlider = Filters.Slider.ROW_HEIGHT;
 
     private Filters.Dropdown selectionModeDrdwn = Filters.Dropdown.SELECTION_MODE;
     private Filters.Dropdown autoresizeModeDrdwn = Filters.Dropdown.AUTORESIZE_MODE;
@@ -34,38 +37,63 @@ public class JTableDemoTests extends BasePageTest {
     BasePage basePage;
     JTableDemoPage jTableDemoPage;
 
-
     @Before
-    public void init() throws InterruptedException {
+    public void init() {
        basePage = new BasePage(editor);
         jTableDemoPage = new JTableDemoPage(editor);
         basePage.openDemo("JTable demo");
     }
 
     @Test
-    public void selectFilterCheckbox() throws InterruptedException {
+    public void reorderingCheckboxTest(){
         jTableDemoPage.pressCheckbox(reorderingChbx);
-        Thread.sleep(3000);
+
+        //TODO add assert
     }
 
     @Test
-    public void selectSlider()throws InterruptedException{
-        jTableDemoPage.selectSlider(interCellSlider);
+    public void horizLinesCheckboxTest(){
+        jTableDemoPage.pressCheckbox(horizLinesChbx);
+
+        //TODO add assert that horizontal lines in the table are not displayed
     }
 
     @Test
-    public void input() throws InterruptedException {
-        //String oldValue = "JTable Printing";
-        String oldValue = "Page {0}";
-        String newValue = "Some new text";
-        jTableDemoPage.inputText(oldValue, newValue);
+    public void verticalLinesCheckboxTest(){
+        jTableDemoPage.pressCheckbox(vertLinesChbx);
+
+        //TODO add assert that vertical lines in the table are not displayed
     }
 
     @Test
-    public void clickPrint() throws InterruptedException {
+    public void interCellSpacingSliderTest(){
+        jTableDemoPage.selectSlider(interCellSlider, 0.75);
+
+        //TODO add table cells format check
+    }
+
+    @Test
+    public void rowHeightSliderTest(){
+        jTableDemoPage.selectSlider(rowHeightSlider, 0.60);
+
+        //TODO add table cells format check
+    }
+
+    //@Test
+    public void printingPanelTest(){
+        String oldValueHeader = "JTable Printing";
+        String oldValueFooter = "Page {0}";
+        String newValueFooter = "Some new text";
+        String newValueHeader = "Table Header";
+        jTableDemoPage.inputText(oldValueHeader, newValueHeader);
+        jTableDemoPage.inputText(oldValueFooter, newValueFooter);
+
+        jTableDemoPage.pressCheckbox(firWidthChbx);
+
         String btnText = "Print";
         jTableDemoPage.clickOnBtn(btnText);
 
+        //TODO add check that new window was opened
     }
 
     @Test
@@ -74,7 +102,7 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void singleSelectionModeTest() throws InterruptedException {
+    public void singleSelectionModeTest() {
         // default row selection checkbox is selected + single selection mode in dropdown
         jTableDemoPage.selectValueInDropdown(selectionModeDrdwn, singleSelModeValue);
 
@@ -90,7 +118,7 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void oneRangeSelectionModeTest() throws InterruptedException {
+    public void oneRangeSelectionModeTest() {
         // default row selection checkbox is selected + one range selection mode in dropdown
         jTableDemoPage.selectValueInDropdown(selectionModeDrdwn, oneRangeSelModeValue);
 
@@ -107,7 +135,7 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void oneRangeSelectionModeWithTwoSectionsTest() throws InterruptedException {
+    public void oneRangeSelectionModeWithTwoSectionsTest() {
         // default row selection checkbox is selected + one range selection mode in dropdown
         jTableDemoPage.selectValueInDropdown(selectionModeDrdwn, oneRangeSelModeValue);
 
@@ -133,7 +161,7 @@ public class JTableDemoTests extends BasePageTest {
 
 
     @Test
-    public void multipleRangeSelectionModeTest() throws InterruptedException {
+    public void multipleRangeSelectionModeTest() {
         // default row selection checkbox is selected + multiple range selection mode in dropdown
         jTableDemoPage.selectValueInDropdown(selectionModeDrdwn, multipleRangeSelModeValue);
 
@@ -156,7 +184,7 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void columnSingleSelectionTest() throws InterruptedException {
+    public void columnSingleSelectionTest() {
         //unselect selected by default checkbox
         jTableDemoPage.pressCheckbox(rowSelectionChbx);
         //select column selection
@@ -172,7 +200,7 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void columnOneRangeSelectionTest() throws InterruptedException{
+    public void columnOneRangeSelectionTest(){
         //deselect selected by default checkbox
         jTableDemoPage.pressCheckbox(rowSelectionChbx);
         //select column selection
@@ -188,7 +216,7 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void columnMultipleRangeSelectionTest()throws InterruptedException{
+    public void columnMultipleRangeSelectionTest(){
         //deselect selected by default checkbox
         jTableDemoPage.pressCheckbox(rowSelectionChbx);
         //select column selection
@@ -206,7 +234,7 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void rowAndColumnMultipleSelectionTest() throws InterruptedException{
+    public void rowAndColumnMultipleSelectionTest() {
         //select column selection, row selection is selected by default
         jTableDemoPage.pressCheckbox(columnSelectionChbx);
 

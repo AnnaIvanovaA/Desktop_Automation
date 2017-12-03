@@ -21,38 +21,31 @@ public class JTableDemoPage extends BasePage {
         super(editor);
     }
 
-    public void pressCheckbox(String checkboxName) throws InterruptedException {
+    public void pressCheckbox(String checkboxName) {
         JCheckBoxFixture checkBox = editor.checkBox(Matchers.getCheckBoxByTextMatcher(checkboxName));
         checkBox.click();
-
-        Thread.sleep(1000);
     }
 
-    public void selectValueInDropdown(Filters.Dropdown dropdown, String value) throws InterruptedException {
+    public void selectValueInDropdown(Filters.Dropdown dropdown, String value) {
         JComboBoxFixture combobox = editor.comboBox(Matchers.getComboboxByDefaultValueMatcher(dropdown));
         combobox.selectItem(value);
-
-        Thread.sleep(2000);
-
     }
 
-    public void selectSlider(Filters.Slider sliderName) throws InterruptedException {
+    public void selectSlider(Filters.Slider sliderName, Double partOfMax){
         JSliderFixture slider = editor.slider(Matchers.getSliderByMaxValueMatcher(sliderName));
-        slider.slideToMaximum();
-        Thread.sleep(5000);
+        Double valueD = sliderName.getMaxValue()*partOfMax;
+        slider.slideTo(valueD.intValue());
 
     }
 
-    public void inputText(String oldValue, String newValue) throws InterruptedException {
+    public void inputText(String oldValue, String newValue){
         JTextComponentFixture jText = editor.textBox(Matchers.getTextFieldByDefaultValueMatcher(oldValue));
         jText.deleteText().enterText(newValue);
-        Thread.sleep(2000);
     }
 
-    public void clickOnBtn(String btnText) throws InterruptedException {
+    public void clickOnBtn(String btnText) {
         JButtonFixture printBtn = editor.button(Matchers.getButtonByTextMatcher(btnText));
         printBtn.click();
-        Thread.sleep(2000);
     }
 
     public void table() throws InterruptedException{
@@ -96,16 +89,15 @@ public class JTableDemoPage extends BasePage {
         table.cell(row(y).column(x)).click();
     }
 
-    public void selectSection(int x1, int y1, int x2, int y2) throws InterruptedException {
+    public void selectSection(int x1, int y1, int x2, int y2){
         JTableFixture table = editor.table();
         table.cell(row(y1).column(x1)).click();
         table.pressKey(KeyEvent.VK_SHIFT);
         table.cell(row(y2).column(x2)).click();
         table.releaseKey(KeyEvent.VK_SHIFT);
-        Thread.sleep(2000);
     }
 
-    public void addSection(int x1, int y1, int x2, int y2)throws InterruptedException{
+    public void addSection(int x1, int y1, int x2, int y2){
         JTableFixture table = editor.table();
         table.pressKey(KeyEvent.VK_CONTROL);
         selectSection(x1, y1, x2, y2);
