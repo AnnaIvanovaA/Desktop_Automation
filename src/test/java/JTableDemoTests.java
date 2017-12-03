@@ -1,4 +1,5 @@
 import objectModel.Filters;
+import objectModel.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,8 +98,16 @@ public class JTableDemoTests extends BasePageTest {
     }
 
     @Test
-    public void table() throws InterruptedException{
-        jTableDemoPage.selectSection(0, 0, 0, 5);
+    public void insertUserDataInTheTableTest() {
+        User user = new User("John", "Smith",  "Green", "Interstellar", "456", "Apple");
+        jTableDemoPage.insertUserInARow(user, 5);
+
+        Assert.assertEquals(jTableDemoPage.getValueFromCell(0,5),user.getFirstName());
+        Assert.assertEquals(jTableDemoPage.getValueFromCell(1,5),user.getLastName());
+        Assert.assertEquals(jTableDemoPage.getCellBackgroundColor(2,5),Color.GREEN);
+        Assert.assertEquals(jTableDemoPage.getCellForegroundColor(2,5),Color.BLACK);
+        Assert.assertEquals(jTableDemoPage.getValueFromCell(3,5),user.getFavoriteMovie());
+        Assert.assertEquals(jTableDemoPage.getValueFromCell(4,5),user.getFavoriteNumber());
     }
 
     @Test

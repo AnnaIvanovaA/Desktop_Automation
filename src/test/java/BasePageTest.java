@@ -3,7 +3,6 @@ import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.junit.testcase.FestSwingJUnitTestCase;
 import org.junit.Before;
-import org.junit.Test;
 import pages.BasePage;
 
 import javax.swing.*;
@@ -48,7 +47,7 @@ public class BasePageTest extends FestSwingJUnitTestCase {
     }
 
 
-    @Test
+    //@Test
     public void openJTableDemo(){
         basePage.openDemo("JTable demo");
     }

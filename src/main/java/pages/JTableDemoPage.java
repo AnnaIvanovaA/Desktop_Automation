@@ -2,6 +2,7 @@ package pages;
 
 import objectModel.Filters;
 import objectModel.Matchers;
+import objectModel.User;
 import org.fest.swing.fixture.*;
 
 import java.awt.*;
@@ -78,15 +79,25 @@ public class JTableDemoPage extends BasePage {
         Thread.sleep(5000);
     }
 
-    public void selectRows(int y1, int y2){
+    public void insertUserInARow(User user, int rowNumber){
         JTableFixture table = editor.table();
-        table.selectRows(y1, y2);
+        table.enterValue(row(rowNumber).column(0), user.getFirstName());
+        table.enterValue(row(rowNumber).column(1), user.getLastName());
+        table.enterValue(row(rowNumber).column(2), user.getFavoriteColor());
+        table.enterValue(row(rowNumber).column(3), user.getFavoriteMovie());
+        table.enterValue(row(rowNumber).column(4), user.getFavoriteNumber());
+    }
 
+    public String getValueFromCell(int x, int y){
+        return editor.table().cell(row(y).column(x)).value();
+    }
+
+    public void selectRows(int y1, int y2){
+        editor.table().selectRows(y1, y2);
     }
 
     public void selectCell(int x, int y){
-        JTableFixture table = editor.table();
-        table.cell(row(y).column(x)).click();
+        editor.table().cell(row(y).column(x)).click();
     }
 
     public void selectSection(int x1, int y1, int x2, int y2){
@@ -106,8 +117,11 @@ public class JTableDemoPage extends BasePage {
 
 
     public Color getCellBackgroundColor(int x, int y){
-        JTableFixture table = editor.table();
-        return table.cell(row(y).column(x)).background().target();
+        return editor.table().cell(row(y).column(x)).background().target();
+    }
+
+    public Color getCellForegroundColor(int x, int y){
+        return editor.table().cell(row(y).column(x)).foreground().target();
     }
 
     public int getNumberOfRows(){
